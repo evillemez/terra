@@ -4,7 +4,8 @@
   "description": "An experiment that may or may not eventually involve terrain.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "install": "napa"
   },
   "author": "",
   "license": "MIT",
@@ -17,6 +18,10 @@
     "gulp-jade": "^0.7.0",
     "gulp-sourcemaps": "^1.1.1",
     "gulp-util": "^3.0.0",
-    "pixi.js": "^1.6.1"
+    "pixi.js": "^1.6.1",
+    "napa": "~0.4.1"
+  },
+  "napa": {
+    "voronoi": "gorhill/Javascript-Voronoi"
   }
 }

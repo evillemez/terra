@@ -1,10 +1,4 @@
-class Terra.Voronoi.Cell
-  constructor: () ->
-    @centroid = null
-    @site = null
-    @edges = []
-    @vertices = []
-  
-  getCentroid: () ->
+Terra.Voronoi.Cell = Voronoi.Cell
 
-  getSite: () ->
+# Terra.Voronoi.Cell.prototype.getCentroid = ->
+#   #TODO: implement

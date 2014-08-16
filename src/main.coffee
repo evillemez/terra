@@ -15,11 +15,10 @@ document.addEventListener 'DOMContentLoaded', ->
   
   #build and display voronoi graph
   voronoi = new Terra.Voronoi.Diagram(width, height, 10)
-  voronoi.compute()
   console.log "Voronoi computed in #{voronoi.time} ms."
 
   voronoiRenderer = new Terra.Voronoi.Renderer(stage, voronoi)
-  voronoiRenderer.render()
+  voronoiRenderer.draw()
   console.log "Voronoi rendered in #{voronoiRenderer.time} ms."
     
   #render the scene

@@ -6,6 +6,11 @@ coffee = require 'gulp-coffee'
 concat = require 'gulp-concat'
 gutil = require 'gulp-util'
 
+VENDOR_SCRIPTS = [
+  'node_modules/pixi.js/bin/pixi.js'
+  'node_modules/voronoi/rhill-voronoi-core.js'  
+]
+
 gulp.task 'coffee', ->
   gulp.src 'src/**/*.coffee'
     .pipe sourcemaps.init()
@@ -24,10 +29,7 @@ gulp.task 'jade', ->
     .on 'error', gutil.log
 
 gulp.task 'copy', ->
-  gulp.src([
-    'node_modules/pixi.js/bin/pixi.js'
-  ])
-  .pipe gulp.dest('build/vendor/')
+  gulp.src(VENDOR_SCRIPTS).pipe gulp.dest('build/vendor/')
 
 gulp.task 'server', ['jade','coffee', 'copy'], ->
   connect.server {

@@ -1,6 +1,16 @@
 # Voronoi Diagram #
 
-An implementation of a Voronoi Diagram using Fortune's algorithm.
+Wraps Raymond Hill's implementation of a Voronoi diagram here: https://github.com/gorhill/Javascript-Voronoi.
 
-> *NIH*: The Voronoi diagram implementation contained in this directory is based on the implementation by Raymond Hill here: https://github.com/gorhill/Javascript-Voronoi.  The only reason I didn't just use that implementation is because I wanted to understand it better, so I used it as a guide to implementing it myself.
+## Usage ##
 
+```coffee
+pixiStage = #... create a pixi.js stage
+pixiRenderer = #... create a pixi.js renderer
+
+voronoi = new Terra.Voronoi.Diagram(800, 600, 50)
+voronoiRenderer = new Terra.Voronoi.Renderer(pixiStage, voronoi)
+
+voronoiRenderer.draw()
+pixiRenderer.render(pixiStage)
+```

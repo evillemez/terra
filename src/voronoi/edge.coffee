@@ -1,1 +1,0 @@
-class Terra.Voronoi.Edge
