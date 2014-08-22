@@ -6,22 +6,20 @@ class Terra.Voronoi.Renderer
     @time = null
     @_graphics = {}
     
-    @_graphics['sites'] = new PIXI.Graphics()
-    stage.addChild @_graphics['sites']
-    
-    @_graphics['edges'] = new PIXI.Graphics()
-    stage.addChild @_graphics['edges']
-
-    @_graphics['vertices'] = new PIXI.Graphics()
-    stage.addChild @_graphics['vertices']
+    for name in ['sites', 'edges', 'vertices','cells']
+      @_graphics[name] = new PIXI.Graphics()
+      stage.addChild @_graphics[name]
     
   draw: ->
     graphics.clear() for name, graphics of @_graphics
 
     startTime = Date.now()
+
+    @fillCells()
     @drawEdges()
     @drawVertices()
     @drawSites()
+
     @time = Date.now() - startTime
 
   drawSites: ->
@@ -48,4 +46,18 @@ class Terra.Voronoi.Renderer
       g.moveTo vertex.x, vertex.y
       g.beginFill(0xFF0000)
       g.drawCircle vertex.x, vertex.y, 3
+      g.endFill()
+  
+  #START HERE - this is broken
+  fillCells: ->
+    g = @_graphics['cells']
+    
+    for cell in @diagram.cells
+      g.beginFill 0x88FF88, 0.5
+      g.moveTo cell.halfedges[0].edge.va.x, cell.halfedges[0].edge.va.y
+      
+      for halfedge in cell.halfedges
+        g.lineTo halfedge.edge.vb.x, halfedge.edge.vb.y
+
+      g.moveTo cell.halfedges[0].edge.va.x, cell.halfedges[0].edge.va.y
       g.endFill()

@@ -18,9 +18,11 @@ class Terra.Voronoi.Diagram
     #associate cells and sites
     cell.site.cell = cell for cell in @cells
     
+    @_calculateCellCentroids()
+    
     #TODO: implement relaxation, and use voronoi.recycle
     if relaxations > 0
-      console.log 'hi'
+      console.log 'TODO: implement relaxation'
     
     #TODO: create delaunay triangulation from vornoi graph
   
@@ -29,10 +31,16 @@ class Terra.Voronoi.Diagram
     for i in [0...numSites]
       sites.push new Terra.Voronoi.Site(
         Math.floor(Math.random() * @maxX),
-        Math.floor(Math.random() * @maxY)
+        Math.floor(Math.random() * @maxY), 
       )
 
     return sites
   
+  #TODO
+  _calculateCellCentroids: ->
+
+  #TODO
+  _calculateEdgeMidpoints: ->
+      
   getCellAt: (x, y) ->
     #TODO: 
