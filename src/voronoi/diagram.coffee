@@ -15,6 +15,8 @@ class Terra.Voronoi.Diagram
     @vertices = diagram.vertices
     @time = diagram.execTime
     
+    @centroids = []
+    
     #associate cells and sites
     cell.site.cell = cell for cell in @cells
     
@@ -36,8 +38,21 @@ class Terra.Voronoi.Diagram
 
     return sites
   
-  #TODO
+  #TODO - do this for real, currently it is just averaging points, which
+  #is incorrect
   _calculateCellCentroids: ->
+    for cell in @cells
+      sumX = 0
+      sumY = 0
+
+      for halfedge in cell.halfedges
+        point = halfedge.getStartpoint()
+        sumX += point.x
+        sumY += point.y
+      
+      cell.centroid = centroid = { x: sumX / cell.halfedges.length, y: sumY / cell.halfedges.length }
+      centroid.cell = cell
+      @centroids.push centroid
 
   #TODO
   _calculateEdgeMidpoints: ->

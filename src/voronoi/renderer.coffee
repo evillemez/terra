@@ -17,6 +17,7 @@ class Terra.Voronoi.Renderer
     @drawEdges()
     @drawVertices()
     @drawSites()
+    @drawCentroids()
 
     @time = Date.now() - startTime
 
@@ -27,6 +28,15 @@ class Terra.Voronoi.Renderer
       @g.moveTo site.x, site.y
       @g.beginFill(0x000000)
       @g.drawCircle site.x, site.y, 3
+      @g.endFill()
+  
+  drawCentroids: ->
+    @g.lineStyle 2, 0x8888FF, 1
+
+    for centroid in @diagram.centroids
+      @g.moveTo centroid.x, centroid.y
+      @g.beginFill(0x0000FF)
+      @g.drawCircle centroid.x, centroid.y, 3
       @g.endFill()
   
   drawEdges: ->
