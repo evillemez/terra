@@ -13,11 +13,11 @@ class Terra.Voronoi.Renderer
 
     startTime = Date.now()
 
-    @fillCells()
-    @drawEdges()
-    @drawVertices()
-    @drawSites()
     @drawCentroids()
+    @drawSites()
+    @drawEdges()
+    @fillCells()
+    @drawVertices()
 
     @time = Date.now() - startTime
 
