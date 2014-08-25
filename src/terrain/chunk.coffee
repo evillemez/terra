@@ -1,0 +1,3 @@
+class Terra.Terrain.Chunk
+  constructor: (@x = 20, @y = 10, @z = 20) ->
+    #TODO: compute composition...
