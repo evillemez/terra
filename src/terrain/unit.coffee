@@ -7,4 +7,4 @@ class Terra.Terrain.Unit
     @left = null
     @right = null
   
-  
+    

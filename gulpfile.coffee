@@ -8,7 +8,8 @@ gutil = require 'gulp-util'
 
 VENDOR_SCRIPTS = [
   'node_modules/pixi.js/bin/pixi.js'
-  'node_modules/voronoi/rhill-voronoi-core.js'  
+  'node_modules/voronoi/rhill-voronoi-core.js'
+  'bower_components/threejs/build/three.js'
 ]
 
 gulp.task 'coffee', ->

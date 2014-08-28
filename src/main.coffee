@@ -8,7 +8,7 @@ Terra =
 # Create and render a Voronoi diagram.
 ###
 voronoi = ->
-  #setup stage
+  #setup pixi.js stage
   @container = document.getElementById('container')
   @height = container.clientHeight
   @width = container.clientWidth
@@ -31,7 +31,38 @@ voronoi = ->
 # Create and render a 3D terrain chunk.
 ###
 terrain = ->
+  #setup three.js scene
+  @container = document.getElementById('container')
+  @scene = new THREE.Scene()
+  @camera = new THREE.PerspectiveCamera 75, @container.clientWidth / @container.clientHeight, 0.1, 1000
+  @renderer = new THREE.WebGLRenderer()
+  @renderer.setSize @container.clientWidth, @container.clientHeight
+  @container.appendChild @renderer.domElement
+  @camera.position.z = 2
+    
+  #add lights to scene
+  dirLight = new THREE.DirectionalLight 0xffffff
+  dirLight.position.set(1, 1, 10).normalize()
+  @scene.add dirLight 
   
+  #add stuff to scene
+  cube = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), new THREE.MeshLambertMaterial({color: 0x00ff00}))
+  @scene.add cube
+  
+  @chunk = new Terra.Terrain.Chunk(5, 5, 5)
+  chunkRenderer = new Terra.Terrain.Renderer @chunk
+  scene.add chunkRenderer.createMesh()
+  
+  #render scene
+  render = =>
+    requestAnimationFrame render
+    
+    cube.rotation.x += 0.01
+    cube.rotation.y += 0.01
+    
+    @renderer.render @scene, @camera
+  
+  render()
 
 #do stuff once DOM loads
-document.addEventListener 'DOMContentLoaded', voronoi.bind window
+document.addEventListener 'DOMContentLoaded', terrain.bind window
