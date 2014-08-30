@@ -38,27 +38,26 @@ terrain = ->
   @renderer = new THREE.WebGLRenderer()
   @renderer.setSize @container.clientWidth, @container.clientHeight
   @container.appendChild @renderer.domElement
-  @camera.position.z = 2
-    
+  @camera.position.z = 5
+  @controls = new THREE.OrbitControls @camera
+  @controls.damping = 0.2
+  
   #add lights to scene
   dirLight = new THREE.DirectionalLight 0xffffff
   dirLight.position.set(1, 1, 10).normalize()
+  ambLight = new THREE.AmbientLight 0x555555
+  @scene.add ambLight
   @scene.add dirLight 
   
-  #add stuff to scene
-  cube = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), new THREE.MeshLambertMaterial({color: 0x00ff00}))
-  @scene.add cube
-  
-  @chunk = new Terra.Terrain.Chunk(5, 5, 5)
+  @chunk = new Terra.Terrain.Chunk(3, 3, 3)
   chunkRenderer = new Terra.Terrain.Renderer @chunk
-  scene.add chunkRenderer.createMesh()
+  # mesh = chunkRenderer.createMesh()
+  # @scene.add mesh
+  @scene.add box for box in chunkRenderer.createBoxesForSolids()
   
   #render scene
   render = =>
     requestAnimationFrame render
-    
-    cube.rotation.x += 0.01
-    cube.rotation.y += 0.01
     
     @renderer.render @scene, @camera
   

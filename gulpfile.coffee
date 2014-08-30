@@ -10,6 +10,7 @@ VENDOR_SCRIPTS = [
   'node_modules/pixi.js/bin/pixi.js'
   'node_modules/voronoi/rhill-voronoi-core.js'
   'bower_components/threejs/build/three.js'
+  'misc/orbit-controls.js'
 ]
 
 gulp.task 'coffee', ->
@@ -32,7 +33,7 @@ gulp.task 'jade', ->
 gulp.task 'copy', ->
   gulp.src(VENDOR_SCRIPTS).pipe gulp.dest('build/vendor/')
 
-gulp.task 'server', ['jade','coffee', 'copy'], ->
+gulp.task 'server', ['jade', 'coffee', 'copy'], ->
   connect.server {
     root: 'build/'
     port: 8111
