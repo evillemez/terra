@@ -1,6 +1,7 @@
 class Terra.Terrain.Renderer
-  constructor: (@chunk, @scale) ->
-  
+  constructor: (@chunk, @scaleX = 1, @scaleY = 1, @scaleZ = 1) ->
+    @_geometry = new THREE.Geometry()
+    
   createBoxesForSolids: ->
     meshes = []
     
@@ -19,15 +20,13 @@ class Terra.Terrain.Renderer
     return meshes
   
   createMesh: ->
-    vertices = []
-    faces = []
-
     for x in [0...@chunk.data.length]
       for y in [0...@chunk.data[x].length]
         for z in [0...@chunk.data[x][y].length]
           point = @chunk.data[x][y][z]
           
-          continue if point == 1
+          if point == 0
+            continue
           
           pos = [x, y, z]
           
@@ -35,28 +34,103 @@ class Terra.Terrain.Renderer
           bottom = @chunk.data[x]?[y - 1]?[z]?
           left = @chunk.data[x - 1]?[y]?[z]?
           right = @chunk.data[x + 1]?[y]?[z]?
-          front = @chunk.data[x]?[y]?[z - 1]?
-          back = @chunk.data[x]?[y]?[z + 1]?
+          front = @chunk.data[x]?[y]?[z + 1]?
+          back = @chunk.data[x]?[y]?[z - 1]?
           
-          @_addTop vertices, faces    if top == 0
-          @_addBottom vertices, faces if bottom == 0
-          @_addLeft vertices, faces   if left == 0
-          @_addRight vertices, faces  if right == 0
-          @_addFront vertices, faces  if front == 0
-          @_addBack vertices, faces   if back == 0
+          @_addTop pos    if top
+          @_addBottom pos if bottom
+          @_addLeft pos   if left
+          @_addRight pos  if right
+          @_addFront pos  if front
+          @_addBack pos   if back
     
-    #create mesh geometry with computed vertices and faces
-    geometry = new THREE.Geometry()
-    geometry.vertices.push vertex for vertex in vertices
-    geometry.faces.push face for face in faces
-    geometry.computeFaceNormals()
+    #what does this -actually- do? seemed to flip my normals, which I so lovingly crafted
+    @_geometry.computeFaceNormals()
+    @_geometry.computeVertexNormals()
     
-    return new THREE.Mesh geometry, new THREE.MeshLambertMaterial({color: 0xffffff})
+    return new THREE.Mesh @_geometry, new THREE.MeshLambertMaterial({color: 0xffffff})
   
-  _addTop: (vertices, faces, point) -> console.log 'adding top'
-  _addBottom: (vertices, faces, point) -> console.log 'adding bottom'
-  _addLeft: (vertices, faces, point) -> console.log 'adding left'
-  _addRight: (vertices, faces, point) -> console.log 'adding right'
-  _addFront: (vertices, faces, point) -> console.log 'adding front'
-  _addBack: (vertices, faces, point) -> console.log 'adding back'
+  _addTop: (point) ->
+    halfX = point[0] * 0.5 * @scaleX
+    halfY = point[1] * 0.5 * @scaleY
+    halfZ = point[2] * 0.5 * @scaleZ
+    vertIndex = @_geometry.vertices.length
+    
+    @_geometry.vertices.push new THREE.Vector3(-halfX, halfY, -halfZ)
+    @_geometry.vertices.push new THREE.Vector3(halfX, halfY, -halfZ)
+    @_geometry.vertices.push new THREE.Vector3(halfX, halfY, halfZ)
+    @_geometry.vertices.push new THREE.Vector3(-halfX, halfY, halfZ)
+
+    @_geometry.faces.push new THREE.Face3(vertIndex, vertIndex + 3, vertIndex + 2)
+    @_geometry.faces.push new THREE.Face3(vertIndex + 2, vertIndex + 1, vertIndex)
+    
+  _addBottom: (point) ->
+    halfX = point[0] * 0.5 * @scaleX
+    halfY = point[1] * 0.5 * @scaleY
+    halfZ = point[2] * 0.5 * @scaleZ
+    vertIndex = @_geometry.vertices.length
+    
+    @_geometry.vertices.push new THREE.Vector3(-halfX, -halfY, -halfZ)
+    @_geometry.vertices.push new THREE.Vector3(halfX, -halfY, -halfZ)
+    @_geometry.vertices.push new THREE.Vector3(halfX, -halfY, halfZ)
+    @_geometry.vertices.push new THREE.Vector3(-halfX, -halfY, halfZ)
+
+    @_geometry.faces.push new THREE.Face3(vertIndex, vertIndex + 1, vertIndex + 2)
+    @_geometry.faces.push new THREE.Face3(vertIndex + 2, vertIndex + 3, vertIndex)
+
+  _addLeft: (point) ->
+    halfX = point[0] * 0.5 * @scaleX
+    halfY = point[1] * 0.5 * @scaleY
+    halfZ = point[2] * 0.5 * @scaleZ
+    vertIndex = @_geometry.vertices.length
+
+    @_geometry.vertices.push new THREE.Vector3(-halfX, -halfY, -halfZ)
+    @_geometry.vertices.push new THREE.Vector3(-halfX, -halfY, halfZ)
+    @_geometry.vertices.push new THREE.Vector3(-halfX, halfY, halfZ)
+    @_geometry.vertices.push new THREE.Vector3(-halfX, halfY, -halfZ)
+
+    @_geometry.faces.push new THREE.Face3(vertIndex, vertIndex + 1, vertIndex + 2)
+    @_geometry.faces.push new THREE.Face3(vertIndex + 2, vertIndex + 3, vertIndex)
+    
+  _addRight: (point) ->
+    halfX = point[0] * 0.5 * @scaleX
+    halfY = point[1] * 0.5 * @scaleY
+    halfZ = point[2] * 0.5 * @scaleZ
+    vertIndex = @_geometry.vertices.length
+
+    @_geometry.vertices.push new THREE.Vector3(halfX, -halfY, -halfZ)
+    @_geometry.vertices.push new THREE.Vector3(halfX, -halfY, halfZ)
+    @_geometry.vertices.push new THREE.Vector3(halfX, halfY, halfZ)
+    @_geometry.vertices.push new THREE.Vector3(halfX, halfY, -halfZ)
+
+    @_geometry.faces.push new THREE.Face3(vertIndex, vertIndex + 3, vertIndex + 2)
+    @_geometry.faces.push new THREE.Face3(vertIndex + 2, vertIndex + 1, vertIndex)
+    
+  _addFront: (point) ->
+    halfX = point[0] * 0.5 * @scaleX
+    halfY = point[1] * 0.5 * @scaleY
+    halfZ = point[2] * 0.5 * @scaleZ
+    vertIndex = @_geometry.vertices.length
+
+    @_geometry.vertices.push new THREE.Vector3(halfX, halfY, halfZ)
+    @_geometry.vertices.push new THREE.Vector3(-halfX, halfY, halfZ)
+    @_geometry.vertices.push new THREE.Vector3(-halfX, -halfY, halfZ)
+    @_geometry.vertices.push new THREE.Vector3(halfX, -halfY, halfZ)
+
+    @_geometry.faces.push new THREE.Face3(vertIndex, vertIndex + 1, vertIndex + 2)
+    @_geometry.faces.push new THREE.Face3(vertIndex + 2, vertIndex + 3, vertIndex)
+    
+  _addBack: (point) ->
+    halfX = point[0] * 0.5 * @scaleX
+    halfY = point[1] * 0.5 * @scaleY
+    halfZ = point[2] * 0.5 * @scaleZ
+    vertIndex = @_geometry.vertices.length
+
+    @_geometry.vertices.push new THREE.Vector3(halfX, halfY, -halfZ)
+    @_geometry.vertices.push new THREE.Vector3(-halfX, halfY, -halfZ)
+    @_geometry.vertices.push new THREE.Vector3(-halfX, -halfY, -halfZ)
+    @_geometry.vertices.push new THREE.Vector3(halfX, -halfY, -halfZ)
+
+    @_geometry.faces.push new THREE.Face3(vertIndex, vertIndex + 3, vertIndex + 2)
+    @_geometry.faces.push new THREE.Face3(vertIndex + 2, vertIndex + 1, vertIndex)
   

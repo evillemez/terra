@@ -51,8 +51,9 @@ terrain = ->
   
   @chunk = new Terra.Terrain.Chunk(3, 3, 3)
   chunkRenderer = new Terra.Terrain.Renderer @chunk
-  # mesh = chunkRenderer.createMesh()
-  # @scene.add mesh
+  mesh = chunkRenderer.createMesh()
+  @scene.add mesh
+  mesh.position.x -= 3
   @scene.add box for box in chunkRenderer.createBoxesForSolids()
   
   #render scene
