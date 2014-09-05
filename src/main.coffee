@@ -49,12 +49,24 @@ terrain = ->
   @scene.add ambLight
   @scene.add dirLight 
   
+  ###
+  # Experiments...
+  ###
   @chunk = new Terra.Terrain.Chunk(3, 3, 3)
   chunkRenderer = new Terra.Terrain.Renderer @chunk
+
+  # #computed data mesh
   mesh = chunkRenderer.createMesh()
+  mesh.position.x -= 4
   @scene.add mesh
-  mesh.position.x -= 3
+
+  # #boxes per data point
   @scene.add box for box in chunkRenderer.createBoxesForSolids()
+  
+  #scaled box
+  box = chunkRenderer.createScaledBoxMesh()
+  box.position.x -= 2
+  @scene.add box
   
   #render scene
   render = =>
