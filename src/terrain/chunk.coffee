@@ -12,4 +12,5 @@ class Terra.Terrain.Chunk
         for z in [0 ... maxZ]
           @data[x][y][z] = @_getBlockType()
   
+  #currently returns random 1 or 0
   _getBlockType: -> Math.round(Math.random())

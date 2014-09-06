@@ -52,22 +52,17 @@ terrain = ->
   ###
   # Experiments...
   ###
-  @chunk = new Terra.Terrain.Chunk(3, 3, 3)
+  @chunk = new Terra.Terrain.Chunk(2, 2, 2)
   chunkRenderer = new Terra.Terrain.Renderer @chunk
 
   # #computed data mesh
   mesh = chunkRenderer.createMesh()
-  mesh.position.x -= 4
+  mesh.position.x -= 3
   @scene.add mesh
 
   # #boxes per data point
   @scene.add box for box in chunkRenderer.createBoxesForSolids()
-  
-  #scaled box
-  box = chunkRenderer.createScaledBoxMesh()
-  box.position.x -= 2
-  @scene.add box
-  
+    
   #render scene
   render = =>
     requestAnimationFrame render
