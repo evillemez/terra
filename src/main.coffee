@@ -52,8 +52,8 @@ terrain = ->
   ###
   # Experiments...
   ###
-  @chunk = new Terra.Terrain.Chunk(3, 3, 3)
-  chunkRenderer = new Terra.Terrain.Renderer @chunk, 1, 1, 1
+  @chunk = new Terra.Terrain.Chunk(3, 9, 3)
+  chunkRenderer = new Terra.Terrain.Renderer @chunk, 1, 0.33, 1
 
   # #computed data mesh
   mesh = chunkRenderer.createTileMesh()

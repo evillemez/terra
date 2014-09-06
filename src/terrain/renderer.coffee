@@ -21,12 +21,12 @@ class Terra.Terrain.Renderer
           front = if @chunk.data[x]?[y]?[z + 1]? then !!@chunk.data[x][y][z + 1] else false
           back = if @chunk.data[x]?[y]?[z - 1]? then !!@chunk.data[x][y][z - 1] else false
           
-          posHalfX = x + (0.5 * @scaleX)
-          negHalfX = x - (0.5 * @scaleX)          
-          posHalfY = y + (0.5 * @scaleY)
-          negHalfY = y - (0.5 * @scaleY)
-          posHalfZ = z + (0.5 * @scaleZ)
-          negHalfZ = z - (0.5 * @scaleZ)
+          posHalfX = (x * @scaleX) + (0.5 * @scaleX)
+          negHalfX = (x * @scaleX) - (0.5 * @scaleX)          
+          posHalfY = (y * @scaleY) + (0.5 * @scaleY)
+          negHalfY = (y * @scaleY) - (0.5 * @scaleY)
+          posHalfZ = (z * @scaleZ) + (0.5 * @scaleZ)
+          negHalfZ = (z * @scaleZ) - (0.5 * @scaleZ)
           
           if !top
             i = g.vertices.length
