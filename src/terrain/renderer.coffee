@@ -1,25 +1,6 @@
 class Terra.Terrain.Renderer
   constructor: (@chunk, @scaleX = 1, @scaleY = 1, @scaleZ = 1) ->
     
-  createBoxesForSolids: ->
-    meshes = []
-    
-    for x in [0...@chunk.data.length]
-      for y in [0...@chunk.data[x].length]
-        for z in [0...@chunk.data[x][y].length]
-          
-          if @chunk.data[x][y][z] == 0
-            continue
-
-          mesh = @createScaledBoxMesh 0.9, 0.9, 0.9, 0xffaa44
-          mesh.position.x = x * @scaleX
-          mesh.position.y = y * @scaleY
-          mesh.position.z = z * @scaleZ
-          
-          meshes.push mesh
-    
-    return meshes
-  
   createTileMesh: (color = 0x44aaff) ->
     g = new THREE.Geometry()
     
@@ -49,56 +30,56 @@ class Terra.Terrain.Renderer
           
           if !top
             i = g.vertices.length
-            g.vertices.push new THREE.Vector3 negHalfX,  posHalfY, negHalfZ
-            g.vertices.push new THREE.Vector3 negHalfX,  posHalfY,  posHalfZ
-            g.vertices.push new THREE.Vector3  posHalfX,  posHalfY,  posHalfZ
-            g.vertices.push new THREE.Vector3  posHalfX,  posHalfY, negHalfZ
+            g.vertices.push new THREE.Vector3 negHalfX, posHalfY, negHalfZ
+            g.vertices.push new THREE.Vector3 negHalfX, posHalfY, posHalfZ
+            g.vertices.push new THREE.Vector3 posHalfX, posHalfY, posHalfZ
+            g.vertices.push new THREE.Vector3 posHalfX, posHalfY, negHalfZ
             g.faces.push new THREE.Face3 i+0, i+1, i+2
             g.faces.push new THREE.Face3 i+2, i+3, i+0
             
           if !bottom
             i = g.vertices.length
             g.vertices.push new THREE.Vector3 negHalfX, negHalfY, negHalfZ
-            g.vertices.push new THREE.Vector3 negHalfX, negHalfY,  posHalfZ
-            g.vertices.push new THREE.Vector3  posHalfX, negHalfY,  posHalfZ
-            g.vertices.push new THREE.Vector3  posHalfX, negHalfY, negHalfZ
+            g.vertices.push new THREE.Vector3 negHalfX, negHalfY, posHalfZ
+            g.vertices.push new THREE.Vector3 posHalfX, negHalfY, posHalfZ
+            g.vertices.push new THREE.Vector3 posHalfX, negHalfY, negHalfZ
             g.faces.push new THREE.Face3 i+0, i+3, i+2
             g.faces.push new THREE.Face3 i+2, i+1, i+0
             
           if !front
             i = g.vertices.length
-            g.vertices.push new THREE.Vector3 negHalfX, negHalfY,  posHalfZ
-            g.vertices.push new THREE.Vector3  posHalfX, negHalfY,  posHalfZ
-            g.vertices.push new THREE.Vector3  posHalfX,  posHalfY,  posHalfZ
-            g.vertices.push new THREE.Vector3 negHalfX,  posHalfY,  posHalfZ
+            g.vertices.push new THREE.Vector3 negHalfX, negHalfY, posHalfZ
+            g.vertices.push new THREE.Vector3 posHalfX, negHalfY, posHalfZ
+            g.vertices.push new THREE.Vector3 posHalfX, posHalfY, posHalfZ
+            g.vertices.push new THREE.Vector3 negHalfX, posHalfY, posHalfZ
             g.faces.push new THREE.Face3 i+0, i+1, i+2
             g.faces.push new THREE.Face3 i+2, i+3, i+0
           
           if !back
             i = g.vertices.length
             g.vertices.push new THREE.Vector3 negHalfX, negHalfY, negHalfZ
-            g.vertices.push new THREE.Vector3  posHalfX, negHalfY, negHalfZ
-            g.vertices.push new THREE.Vector3  posHalfX,  posHalfY, negHalfZ
-            g.vertices.push new THREE.Vector3 negHalfX,  posHalfY, negHalfZ
+            g.vertices.push new THREE.Vector3 posHalfX, negHalfY, negHalfZ
+            g.vertices.push new THREE.Vector3 posHalfX, posHalfY, negHalfZ
+            g.vertices.push new THREE.Vector3 negHalfX, posHalfY, negHalfZ
             g.faces.push new THREE.Face3 i+0, i+3, i+2
             g.faces.push new THREE.Face3 i+2, i+1, i+0
             
           if !left
             i = g.vertices.length
             g.vertices.push new THREE.Vector3 negHalfX, negHalfY, negHalfZ
-            g.vertices.push new THREE.Vector3 negHalfX, negHalfY,  posHalfZ
-            g.vertices.push new THREE.Vector3 negHalfX,  posHalfY,  posHalfZ
-            g.vertices.push new THREE.Vector3 negHalfX,  posHalfY, negHalfZ
+            g.vertices.push new THREE.Vector3 negHalfX, negHalfY, posHalfZ
+            g.vertices.push new THREE.Vector3 negHalfX, posHalfY, posHalfZ
+            g.vertices.push new THREE.Vector3 negHalfX, posHalfY, negHalfZ
             g.faces.push new THREE.Face3 i+0, i+1, i+2
             g.faces.push new THREE.Face3 i+2, i+3, i+0
             
           
           if !right
             i = g.vertices.length
-            g.vertices.push new THREE.Vector3  posHalfX, negHalfY, negHalfZ
-            g.vertices.push new THREE.Vector3  posHalfX, negHalfY,  posHalfZ
-            g.vertices.push new THREE.Vector3  posHalfX,  posHalfY,  posHalfZ
-            g.vertices.push new THREE.Vector3  posHalfX,  posHalfY, negHalfZ
+            g.vertices.push new THREE.Vector3 posHalfX, negHalfY, negHalfZ
+            g.vertices.push new THREE.Vector3 posHalfX, negHalfY, posHalfZ
+            g.vertices.push new THREE.Vector3 posHalfX, posHalfY, posHalfZ
+            g.vertices.push new THREE.Vector3 posHalfX, posHalfY, negHalfZ
             g.faces.push new THREE.Face3 i+0, i+3, i+2
             g.faces.push new THREE.Face3 i+2, i+1, i+0
             
