@@ -38,7 +38,8 @@ terrain = ->
   @renderer = new THREE.WebGLRenderer()
   @renderer.setSize @container.clientWidth, @container.clientHeight
   @container.appendChild @renderer.domElement
-  @camera.position.z = 5
+  @camera.position.z = 50
+  @camera.position.y = 20
   @controls = new THREE.OrbitControls @camera
   @controls.damping = 0.2
   
@@ -52,11 +53,14 @@ terrain = ->
   ###
   # Experiments...
   ###
-  @chunk = new Terra.Terrain.Chunk(3, 9, 3)
-  chunkRenderer = new Terra.Terrain.Renderer @chunk, 1, 0.33, 1
+  @chunk = new Terra.Terrain.RandomGenerator(30, 10, 30)
+  @chunkRenderer = new Terra.Terrain.TileRenderer @chunk, 1, 0.5, 1
 
   # #computed data mesh
+  time = Date.now()
   mesh = chunkRenderer.createTileMesh()
+  mesh.position.x -= 15
+  console.log "Mesh computed in #{Date.now() - time}"
   @scene.add mesh
     
   #render scene

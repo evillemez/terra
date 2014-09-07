@@ -1,8 +1,8 @@
 ###
 # Stores and creates the underlying data structure used to create the terrain mesh.
 ###
-class Terra.Terrain.Chunk
-  constructor: (maxX = 20, maxY = 10, maxZ = 20) ->
+class Terra.Terrain.RandomGenerator
+  constructor: (maxX = 10, maxY = 2, maxZ = 10) ->
     @data = [[[]]]
     
     for x in [0 ... maxX]

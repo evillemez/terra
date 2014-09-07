@@ -1,4 +1,4 @@
-class Terra.Terrain.Renderer
+class Terra.Terrain.TileRenderer
   constructor: (@chunk, @scaleX = 1, @scaleY = 1, @scaleZ = 1) ->
     
   createTileMesh: (color = 0x44aaff) ->
