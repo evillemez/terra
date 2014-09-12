@@ -60,7 +60,7 @@ terrain = ->
   time = Date.now()
   mesh = chunkRenderer.createTileMesh()
   mesh.position.x -= 15
-  console.log "Mesh computed in #{Date.now() - time}"
+  console.log "Mesh computed in #{Date.now() - time} ms"
   @scene.add mesh
     
   #render scene
