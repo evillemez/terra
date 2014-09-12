@@ -1,28 +1,34 @@
 class Terra.Terrain.TileRenderer
   constructor: (@chunk, @scaleX = 1, @scaleY = 1, @scaleZ = 1) ->
     
-  createTileMesh: (color = 0x44aaff) ->
+  createTileMesh: ->
     g = new THREE.Geometry()
     
+    TYPES = Terra.Terrain.DEFS
+    
+    ###
+    # Render solid faces
+    ###
     for x in [0...@chunk.data.length]
       for y in [0...@chunk.data[x].length]
         for z in [0...@chunk.data[x][y].length]
-          point = @chunk.data[x][y][z]
+          terrain = TYPES[@chunk.data[x][y][z]]
+          color = new THREE.Color terrain.color
           
           #skip rendering if this is not a solid
-          if point == 0
+          if !terrain.solid
             continue
           
           #check for neighboring solids
-          top = if @chunk.data[x]?[y + 1]?[z]? then !!@chunk.data[x][y + 1][z] else false
-          bottom = if @chunk.data[x]?[y - 1]?[z]? then !!@chunk.data[x][y - 1][z] else false
-          left = if @chunk.data[x - 1]?[y]?[z]? then !!@chunk.data[x - 1][y][z] else false
-          right = if @chunk.data[x + 1]?[y]?[z]? then !!@chunk.data[x + 1][y][z] else false
-          front = if @chunk.data[x]?[y]?[z + 1]? then !!@chunk.data[x][y][z + 1] else false
-          back = if @chunk.data[x]?[y]?[z - 1]? then !!@chunk.data[x][y][z - 1] else false
+          top = if @chunk.data[x]?[y + 1]?[z]? then TYPES[@chunk.data[x][y + 1][z]].solid else false
+          bottom = if @chunk.data[x]?[y - 1]?[z]? then TYPES[@chunk.data[x][y - 1][z]].solid else false
+          left = if @chunk.data[x - 1]?[y]?[z]? then TYPES[@chunk.data[x - 1][y][z]].solid else false
+          right = if @chunk.data[x + 1]?[y]?[z]? then TYPES[@chunk.data[x + 1][y][z]].solid else false
+          front = if @chunk.data[x]?[y]?[z + 1]? then TYPES[@chunk.data[x][y][z + 1]].solid else false
+          back = if @chunk.data[x]?[y]?[z - 1]? then TYPES[@chunk.data[x][y][z - 1]].solid else false
           
           posHalfX = (x * @scaleX) + (0.5 * @scaleX)
-          negHalfX = (x * @scaleX) - (0.5 * @scaleX)          
+          negHalfX = (x * @scaleX) - (0.5 * @scaleX)
           posHalfY = (y * @scaleY) + (0.5 * @scaleY)
           negHalfY = (y * @scaleY) - (0.5 * @scaleY)
           posHalfZ = (z * @scaleZ) + (0.5 * @scaleZ)
@@ -34,8 +40,8 @@ class Terra.Terrain.TileRenderer
             g.vertices.push new THREE.Vector3 negHalfX, posHalfY, posHalfZ
             g.vertices.push new THREE.Vector3 posHalfX, posHalfY, posHalfZ
             g.vertices.push new THREE.Vector3 posHalfX, posHalfY, negHalfZ
-            g.faces.push new THREE.Face3 i+0, i+1, i+2
-            g.faces.push new THREE.Face3 i+2, i+3, i+0
+            g.faces.push new THREE.Face3 i+0, i+1, i+2, null, color
+            g.faces.push new THREE.Face3 i+2, i+3, i+0, null, color
             
           if !bottom
             i = g.vertices.length
@@ -43,8 +49,8 @@ class Terra.Terrain.TileRenderer
             g.vertices.push new THREE.Vector3 negHalfX, negHalfY, posHalfZ
             g.vertices.push new THREE.Vector3 posHalfX, negHalfY, posHalfZ
             g.vertices.push new THREE.Vector3 posHalfX, negHalfY, negHalfZ
-            g.faces.push new THREE.Face3 i+0, i+3, i+2
-            g.faces.push new THREE.Face3 i+2, i+1, i+0
+            g.faces.push new THREE.Face3 i+0, i+3, i+2, null, color
+            g.faces.push new THREE.Face3 i+2, i+1, i+0, null, color
             
           if !front
             i = g.vertices.length
@@ -52,8 +58,8 @@ class Terra.Terrain.TileRenderer
             g.vertices.push new THREE.Vector3 posHalfX, negHalfY, posHalfZ
             g.vertices.push new THREE.Vector3 posHalfX, posHalfY, posHalfZ
             g.vertices.push new THREE.Vector3 negHalfX, posHalfY, posHalfZ
-            g.faces.push new THREE.Face3 i+0, i+1, i+2
-            g.faces.push new THREE.Face3 i+2, i+3, i+0
+            g.faces.push new THREE.Face3 i+0, i+1, i+2, null, color
+            g.faces.push new THREE.Face3 i+2, i+3, i+0, null, color
           
           if !back
             i = g.vertices.length
@@ -61,8 +67,8 @@ class Terra.Terrain.TileRenderer
             g.vertices.push new THREE.Vector3 posHalfX, negHalfY, negHalfZ
             g.vertices.push new THREE.Vector3 posHalfX, posHalfY, negHalfZ
             g.vertices.push new THREE.Vector3 negHalfX, posHalfY, negHalfZ
-            g.faces.push new THREE.Face3 i+0, i+3, i+2
-            g.faces.push new THREE.Face3 i+2, i+1, i+0
+            g.faces.push new THREE.Face3 i+0, i+3, i+2, null, color
+            g.faces.push new THREE.Face3 i+2, i+1, i+0, null, color
             
           if !left
             i = g.vertices.length
@@ -70,8 +76,8 @@ class Terra.Terrain.TileRenderer
             g.vertices.push new THREE.Vector3 negHalfX, negHalfY, posHalfZ
             g.vertices.push new THREE.Vector3 negHalfX, posHalfY, posHalfZ
             g.vertices.push new THREE.Vector3 negHalfX, posHalfY, negHalfZ
-            g.faces.push new THREE.Face3 i+0, i+1, i+2
-            g.faces.push new THREE.Face3 i+2, i+3, i+0
+            g.faces.push new THREE.Face3 i+0, i+1, i+2, null, color
+            g.faces.push new THREE.Face3 i+2, i+3, i+0, null, color
             
           
           if !right
@@ -80,10 +86,10 @@ class Terra.Terrain.TileRenderer
             g.vertices.push new THREE.Vector3 posHalfX, negHalfY, posHalfZ
             g.vertices.push new THREE.Vector3 posHalfX, posHalfY, posHalfZ
             g.vertices.push new THREE.Vector3 posHalfX, posHalfY, negHalfZ
-            g.faces.push new THREE.Face3 i+0, i+3, i+2
-            g.faces.push new THREE.Face3 i+2, i+1, i+0
+            g.faces.push new THREE.Face3 i+0, i+3, i+2, null, color
+            g.faces.push new THREE.Face3 i+2, i+1, i+0, null, color
             
     
     g.computeFaceNormals()
     
-    return new THREE.Mesh g, new THREE.MeshLambertMaterial({color: color})
+    return new THREE.Mesh g, new THREE.MeshLambertMaterial({vertexColors: THREE.FaceColors})

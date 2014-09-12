@@ -22,11 +22,18 @@ class Terra.Terrain.PerlinHeightmapGenerator
 
     
     #create chunk, choosing block based on height at given point
+    types = Terra.Terrain.TYPES
+
     for x in [0 ... maxX]
       @data[x] ?= []
       for y in [0 ... maxY]
         @data[x][y] ?= []
         for z in [0 ... maxZ]
           height = heightmap[x][z]
-          @data[x][y][z] = if y <= height then 1 else 0
-    
+          
+          #assign terrain types based on height
+          @data[x][y][z] = switch
+            when y == 0 then          types.BEDROCK
+            when y > height then      types.AIR
+            when y == height then     types.GRASS
+            else                      types.DIRT
