@@ -53,9 +53,9 @@ terrain = ->
   ###
   # Experiments...
   ###
-  @chunk = new Terra.Terrain.RandomGenerator(30, 10, 30)
+  @chunk = new Terra.Terrain.PerlinHeightmapGenerator(40, 10, 40, 0.75, 'simplex')
   @chunkRenderer = new Terra.Terrain.TileRenderer @chunk, 1, 0.5, 1
-
+    
   # #computed data mesh
   time = Date.now()
   mesh = chunkRenderer.createTileMesh()
