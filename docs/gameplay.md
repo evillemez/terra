@@ -16,7 +16,7 @@ A character may choose not to move if desired, and instead only perform one abil
 All actions have a time cost, including movement.  The time cost can come in the form of *charge*, *cooldown*, or both.  All character turns and schedule actions are ordered in the event queue by lowest time cost first.
 
 * *Charge* means an ability takes extra "turns" before it executes.
-* *Cooldown* means the character must way extra "turns" before it can act after the ability executes.
+* *Cooldown* means the character must wait extra "turns" before it can act after the ability executes.
 
 ### Event Queue ###
 
@@ -25,3 +25,4 @@ Underlyingly, character turn order is implemented in an event queue that is proc
 * Character turn events
 * Character ability execution events
 * Terrain events
+* Status effects (heal/damage over time)
