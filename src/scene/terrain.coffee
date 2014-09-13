@@ -25,7 +25,7 @@ class Terra.Scene.Terrain
     scene.add dirLight 
   
     #create & add terrain
-    chunk = new Terra.Terrain.PerlinHeightmapGenerator(40, 40, 40, 0.75, 'simplex')
+    chunk = new Terra.Terrain.PerlinHeightmapGenerator(50, 40, 50, 0.75, 'simplex')
     chunkRenderer = new Terra.Terrain.TileRenderer chunk, 1, 0.5, 1    
     time = Date.now()
     mesh = chunkRenderer.createTileMesh()
