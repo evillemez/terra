@@ -8,10 +8,11 @@ Terra =
 #do stuff once DOM loads
 document.addEventListener 'DOMContentLoaded', ->
   
-  name = 'terrain'
+  sceneToLoad = 'terrain'
   
-  switch name
-    when 'terrain' then scene = new Terra.Scene.Terrain()
-    when 'voronoi' then scene = new Terra.Scene.Voronoi()
+  scene = switch
+    when 'terrain' == sceneToLoad then new Terra.Scene.Terrain()
+    when 'voronoi' == sceneToLoad then new Terra.Scene.Voronoi()
   
+  scene.setup()
   scene.run()
