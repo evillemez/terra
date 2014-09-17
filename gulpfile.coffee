@@ -1,3 +1,6 @@
+path = require 'path'
+fs = require 'fs'
+glob = require 'glob'
 gulp = require 'gulp'
 connect = require 'gulp-connect'
 sourcemaps = require 'gulp-sourcemaps'
@@ -27,8 +30,18 @@ gulp.task 'coffee', ->
     .on 'error', gutil.log
 
 gulp.task 'jade', ->
+  #assemble jade ops (shaders & scripts)
+  ops = {
+    shaders: {}
+    vendorScripts: '/vendor/' + path.basename(script) for script in VENDOR_SCRIPTS
+  }
+
+  #get all shader code
+  for file in glob.sync '**/*.glsl'
+    ops.shaders[path.basename(file, '.glsl')] = fs.readFileSync file
+
   gulp.src 'src/*.jade'
-    .pipe jade().on 'error', gutil.log
+    .pipe jade({locals: ops}).on 'error', gutil.log
     .pipe gulp.dest('build/')
     .pipe connect.reload()
     .on 'error', gutil.log
@@ -45,7 +58,7 @@ gulp.task 'server', ['jade', 'coffee', 'copy'], ->
 
 gulp.task 'watch', ['server'], ->
   gulp.watch ['src/**/*.coffee'], ['coffee']
-  gulp.watch ['src/**/*.jade'], ['jade']
+  gulp.watch ['src/**/*.jade', 'src/**/*.glsl'], ['jade']
     
 
 gulp.task 'default', ['server']

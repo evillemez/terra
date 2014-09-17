@@ -19,7 +19,8 @@
     "gulp-sourcemaps": "^1.1.1",
     "gulp-util": "^3.0.0",
     "pixi.js": "^1.6.1",
-    "napa": "~0.4.1"
+    "napa": "~0.4.1",
+    "glob": "~4.0.5"
   },
   "napa": {
     "voronoi": "gorhill/Javascript-Voronoi"

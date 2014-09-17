@@ -5,6 +5,8 @@ Terra =
   Event: {}
   Terrain: {}
 
+shader = (name) -> document.getElementById(name).textContent
+
 #do stuff once DOM loads
 document.addEventListener 'DOMContentLoaded', ->
   

@@ -2,14 +2,15 @@ html
 
   head
     title Terra
-
-    script(src="vendor/pixi.js")
-    script(src="vendor/three.js")
-    script(src="vendor/rhill-voronoi-core.js")
-    script(src="vendor/orbit-controls.js")
-    script(src="vendor/classical-noise.js")
-    script(src="vendor/simplex-noise.js")
+    
+    //scripts to include (defined in gulpfile)
+    each url in vendorScripts
+      script(src=url)
     script(src="scripts.js")
+    
+    //shader code (all .glsl files with ids corresponding to filename)
+    each code, name in shaders
+      script(type='text/x-shader' id=name)= code
 
   body
     #container(style="height:100%;width:100%")
