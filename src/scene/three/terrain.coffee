@@ -9,11 +9,11 @@ class Terra.Scene.Terrain extends Terra.Scene.ThreeScene
     time = Date.now()
     chunkGeometry = new Terra.Terrain.TileGeometry chunk, 1, 0.5, 1
     chunkGeometry.computeFaceNormals()
-    #chunkMaterial = new THREE.MeshLambertMaterial({vertexColors: THREE.FaceColors})
-    chunkMaterial = new THREE.ShaderMaterial({
-      vertexShader: shader 'simpleVertex'
-      fragmentShader: shader 'simpleFragment'
-    })
+    chunkMaterial = new THREE.MeshLambertMaterial({vertexColors: THREE.FaceColors})
+    # chunkMaterial = new THREE.ShaderMaterial({
+    #   vertexShader: shader 'simpleVertex'
+    #   fragmentShader: shader 'simpleFragment'
+    # })
     mesh = new THREE.Mesh(chunkGeometry, chunkMaterial)
     
     #add to scene
