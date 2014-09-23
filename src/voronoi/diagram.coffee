@@ -30,26 +30,17 @@ class Terra.Voronoi.Diagram
   
   _createSites: (maxX, maxY, numSites) ->
     sites = []
-    # for i in [0...numSites]
-    #   sites.push new Terra.Voronoi.Site(
-    #     Math.floor(Math.random() * maxX),
-    #     Math.floor(Math.random() * maxY),
-    #   )
     
-    #QUESTION: how do I elegantly implement these loops in CS?
     interval = 50
-    variation = 10
-    `
-    for(var x = interval * 0.5; x < maxX; x += interval) {
-      for(var y = interval * 0.5; y < maxY; y += interval) {
-        sites.push(new Terra.Voronoi.Site(
-          Math.floor(Math.random() * ((x + variation) - (x - variation))) + (x - variation),
+    variation = 8
+    
+    for x in [(interval * 0.5)...maxX] by interval
+      for y in [(interval * 0.5)...maxY] by interval
+        sites.push new Terra.Voronoi.Site(
+          Math.floor(Math.random() * ((x + variation) - (x - variation))) + (x - variation)
           Math.floor(Math.random() * ((y + variation) - (y - variation))) + (y - variation)
-        ));
-      }
-    }
-    `
-
+        )
+    
     return sites
   
   #TODO - do this for real, currently it is just averaging points, which
