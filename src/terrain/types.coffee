@@ -8,6 +8,7 @@ Terra.Terrain.TYPES =
   DIRT: 2
   GRASS: 3
   WATER: 4
+  STONE: 5
 
 Terra.Terrain.DEFS = [
     name: 'air'
@@ -29,4 +30,8 @@ Terra.Terrain.DEFS = [
     name: 'water'
     color: 0xbbbbff
     solid: false
+  ,
+    name: 'stone'
+    color: 0x888888
+    solid: true
 ]

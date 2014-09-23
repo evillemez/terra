@@ -1,4 +1,4 @@
-class Terra.Terrain.PerlinHeightmapGenerator
+class Terra.Terrain.Perlin2dGenerator
   constructor: (@maxX, @maxY, @maxZ, frequency, type = 'simplex') ->
     @data = [[[]]]
     

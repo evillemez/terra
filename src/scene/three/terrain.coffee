@@ -5,7 +5,7 @@ class Terra.Scene.Terrain extends Terra.Scene.ThreeScene
   setup: ->  
 
     #create terrain mesh
-    chunk = new Terra.Terrain.PerlinHeightmapGenerator(50, 30, 50, 1, 'simplex')
+    chunk = new Terra.Terrain.Perlin2dGenerator(40, 30, 40, 2.0, 'classical')
     time = Date.now()
     chunkGeometry = new Terra.Terrain.TileGeometry chunk, 1, 0.33, 1
     chunkGeometry.computeFaceNormals()
