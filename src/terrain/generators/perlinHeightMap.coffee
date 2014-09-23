@@ -14,12 +14,16 @@ class Terra.Terrain.PerlinHeightmapGenerator
       for z in [0...@maxZ]
         
         #I have no idea what I'm doing - but it seems to be working.
-        heightmap[x][z] = Math.round(Math.abs(perlin.noise(
+        noiseValue = perlin.noise(
           x * frequency * 1 / @maxX, 
           z * frequency * 1 / @maxZ, 
           0
-        )) * 10)
-
+        )
+        
+        #convert noise number to scale based on @maxY height
+        heightValue = ((noiseValue - -1) / (1 - -1)) * (@maxY - 0) + 0
+        
+        heightmap[x][z] = Math.round(heightValue)
     
     #create chunk, choosing block based on height at given point
     types = Terra.Terrain.TYPES
