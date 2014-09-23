@@ -14,7 +14,6 @@ VENDOR_SCRIPTS = [
   'node_modules/voronoi/rhill-voronoi-core.js'
   'bower_components/threejs/build/three.js'
   'misc/orbit-controls.js'
-  'misc/perlin.js'
   'misc/classical-noise.js'
   'misc/simplex-noise.js'
 ]

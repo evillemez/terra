@@ -32,6 +32,6 @@ Terra.Terrain.DEFS = [
     solid: false
   ,
     name: 'stone'
-    color: 0x888888
+    color: 0xaaaaaa
     solid: true
 ]
